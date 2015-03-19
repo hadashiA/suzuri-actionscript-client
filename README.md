@@ -32,6 +32,16 @@ suzuriClient.addEventListener(SuzuriAuthorizedEvent.TYPE, function(event:SuzuriA
 	webView.stage = null;
 });
 
+if (accessToken) {
+  suzuriClient.accessToken = accessToken;
+} else {
+  suzuriClient.authorize();
+}
+```
+
+### API Call Example
+
+```
 // All Request dispatch event for SuzuriResponeEvent
 suzuriClient.addEventListener(SuzuriResponseEvent.TYPE, function(event:SuzuriResponseEvent) {
 	var body:Object = event.body;
@@ -44,7 +54,6 @@ suzuriClient.addEventListener(SuzuriResponseEvent.TYPE, function(event:SuzuriRes
 			trace("==> sampleImageUrl: " + body.products[0].sampleImageUrl);
 			trace("==> sampleUrl:" + body.products[0].sampleUrl);
 		} else if (body.user) {
-			// サンプルに含まれてないですが、たとえば、ユーザ情報取得APIを叩くとこんなかんじでデータがはいってます。
 			trace("==> name: " + body.user.name);
 		}
 		var material = event.body.material;
@@ -55,24 +64,15 @@ suzuriClient.addEventListener(SuzuriResponseEvent.TYPE, function(event:SuzuriRes
 	}
 });
 
-if (accessToken) {
-  suzuriClient.accessToken = accessToken;
-} else {
-  suzuriClient.authorize();
-}
-```
 
-### API Call Example
-
-```
 var attributes = {
-	title: "商品の名前を入れる",
-	description: "商品の説明を入れる",
+	title: "チャメ林チョメ夫",
+	description: "めちゃストイックやしめちゃ夜とかに修行してるしめちゃ自己啓発本とかも読む侍をプリントしました",
 	products: [
 		{ 
-			itemId: 1, // 1=Ｔシャツ
-			published: true,   // true=公開状態になる
-			resizeMode: "contain"  // "contain" = 自動で拡大
+			itemId: 1, 
+			published: true,
+			resizeMode: "contain"
 		}
 	]
 };
