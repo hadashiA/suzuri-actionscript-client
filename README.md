@@ -32,7 +32,9 @@ suzuriClient.addEventListener(SuzuriAuthorizedEvent.TYPE, function(event:SuzuriA
 	webView.stage = null;
 });
 
+// Authorize
 if (accessToken) {
+  // No authentication is required if there is an access token
   suzuriClient.accessToken = accessToken;
 } else {
   suzuriClient.authorize();
