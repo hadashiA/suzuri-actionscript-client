@@ -80,9 +80,9 @@ var attributes = {
 	description: "めちゃストイックやしめちゃ夜とかに修行してるしめちゃ自己啓発本とかも読む侍をプリントしました",
 	products: [
 		{ 
-			itemId: 1, 
-			published: true,
-			resizeMode: "contain"
+			itemId: 1,             // 1 = t-shirt
+			published: true,       // 
+			resizeMode: "contain"  // "contain" = Scale the image to the largest size such that both its width and its height can fit inside the t-shirt print area
 		}
 	]
 };
