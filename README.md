@@ -1,8 +1,15 @@
 # suzuri-actionscript-client
 
+A wrapper around the [v1 SUZURI API](https://suzuri.jp/developer).
+
+## Dependencies
+
+* [charlesbihis/actionscript-oauth2](https://github.com/charlesbihis/actionscript-oauth2)
+* [as3crypto](https://code.google.com/p/as3crypto/)
+
 ## Usage
 
-### Authorize Example
+Authorization
 
 ```actionscript
 import jp.suzuri.SuzuriClient;
@@ -32,16 +39,17 @@ suzuriClient.addEventListener(SuzuriAuthorizedEvent.TYPE, function(event:SuzuriA
 	webView.stage = null;
 });
 
-// Authorize
+
+// Authorization call
 if (accessToken) {
-  // No authentication is required if there is an access token
+  // No authentication is required if there is an access token. (or API KEY)
   suzuriClient.accessToken = accessToken;
 } else {
   suzuriClient.authorize();
 }
 ```
 
-### API Call Example
+API Call Example
 
 ```actionscript
 // All Request dispatch event for SuzuriResponeEvent
@@ -80,3 +88,15 @@ var attributes = {
 };
 suzuriClient.createMaterialFromBitmapData(bitmapdata, attributes);
 ```
+
+### Generic Requests
+
+suzuri-actionscript-client has get, post, put, and delete functions which can make requests with the specified HTTP method to any endpoint.
+
+```actionscript
+suzuriClient.request(URLRequestMethod.PUT, 'materials/' + materialID, { price: 500 })
+```
+
+### Reference
+
+* [Material(素材)](https://suzuri.jp/developer#Material(%E7%B4%A0%E6%9D%90))
