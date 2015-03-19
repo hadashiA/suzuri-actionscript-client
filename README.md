@@ -89,6 +89,11 @@ var attributes = {
 suzuriClient.createMaterialFromBitmapData(bitmapdata, attributes);
 ```
 
+### Create Material Interface
+
+* `createMaterialFromBitmapData(bitmapData:BitmapData, attributes:Object)`
+* `createMaterialFromBitmapData(png:ByteArray, attributes:Object)`
+
 ### Generic Requests
 
 suzuri-actionscript-client has get, post, put, and delete functions which can make requests with the specified HTTP method to any endpoint.
@@ -99,4 +104,4 @@ suzuriClient.request(URLRequestMethod.PUT, 'materials/' + materialID, { price: 5
 
 ### Reference
 
-* [Material(素材)](https://suzuri.jp/developer#Material(%E7%B4%A0%E6%9D%90))
+* See api reference more detail https://suzuri.jp/developer/documentation/v1
