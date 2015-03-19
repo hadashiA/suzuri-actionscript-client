@@ -43,7 +43,7 @@ if (accessToken) {
 
 ### API Call Example
 
-```
+```actionscript
 // All Request dispatch event for SuzuriResponeEvent
 suzuriClient.addEventListener(SuzuriResponseEvent.TYPE, function(event:SuzuriResponseEvent) {
 	var body:Object = event.body;
