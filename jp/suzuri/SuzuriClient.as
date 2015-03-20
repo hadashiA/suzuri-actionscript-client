@@ -21,8 +21,8 @@
     import com.adobe.images.PNGEncoder;
     import com.hurlant.util.Base64;
 	
-    import jp.suzuri.event.SuzuriAuthorizedEvent;
-    import jp.suzuri.event.SuzuriResponseEvent;
+    import jp.suzuri.events.SuzuriAuthorizedEvent;
+    import jp.suzuri.events.SuzuriResponseEvent;
 
 	public class SuzuriClient extends EventDispatcher {
         public var accessToken:String;
