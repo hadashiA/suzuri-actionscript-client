@@ -118,6 +118,7 @@
         }
 
         public function onResponseError(event:IOErrorEvent):void {
+            var urlLoader:URLLoader = event.target as URLLoader;
             var body:String = urlLoader.data;
             this.dispatchEvent(new SuzuriResponseEvent(500, event.text));
             this.lastStatusCode = null;
