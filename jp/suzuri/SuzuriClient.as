@@ -29,6 +29,7 @@
 
         private var oauth:OAuth2;
         private var grant:AuthorizationCodeGrant;
+        private var lastStatusCode;
 
 		public function SuzuriClient(
             stageWebView:StageWebView,
@@ -85,8 +86,9 @@
             request.data = JSON.stringify(attributes);
 
             urlLoader.dataFormat = URLLoaderDataFormat.TEXT;
-            urlLoader.addEventListener(HTTPStatusEvent.HTTP_RESPONSE_STATUS, this.onResponse)
+            urlLoader.addEventListener(HTTPStatusEvent.HTTP_RESPONSE_STATUS, this.onResponse);
             urlLoader.addEventListener(Event.COMPLETE, this.onResponseBody);
+            urlLoader.addEventListener(IOErrorEvent.IO_ERROR, this.onResponseError);
 	        urlLoader.load(request);
         }
 
@@ -101,16 +103,24 @@
         public function onResponse(event:HTTPStatusEvent):void {
             var urlLoader:URLLoader;
 
-            if (event.status >= 200 && event.status < 300) {
+            this.lastStatusCode  =  event.status;
+            if (event.status < 200 || event.status > 200) {
                 urlLoader = event.target as URLLoader;
                 this.dispatchEvent(new SuzuriResponseEvent(event.status, urlLoader.data));
             }
         }
 
-        public function onResponseBody(event:IOErrorEvent):void {
+        public function onResponseBody(event:Event):void {
             var urlLoader:URLLoader = event.target as URLLoader;
             var body:String = urlLoader.data;
-            this.dispatchEvent(new SuzuriResponseEvent(200, body));
+            this.dispatchEvent(new SuzuriResponseEvent(this.lastStatusCode, body));
+            this.lastStatusCode = null;
+        }
+
+        public function onResponseError(event:IOErrorEvent):void {
+            var body:String = urlLoader.data;
+            this.dispatchEvent(new SuzuriResponseEvent(500, event.text));
+            this.lastStatusCode = null;
         }
 	}
 }
