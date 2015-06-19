@@ -27,25 +27,28 @@
 	public class SuzuriClient extends EventDispatcher {
         public var accessToken:String;
 
+		private var clientId: String;
+		private var clientSecret: String;
+		private var redirectUri: String;
+		private var scope: String;
         private var oauth:OAuth2;
         private var grant:AuthorizationCodeGrant;
         private var lastStatusCode;
 
-		public function SuzuriClient(
-            stageWebView:StageWebView,
+		public function SuzuriClient(            
             clientId:String,
             clientSecret:String,
             redirectUri:String,
             scope:String = "read write") {
 
+			this.clientId = clientId;
+			this.clientSecret = clientSecret;
+			this.redirectUri = redirectUri;
+			this.scope = scope;
             this.oauth = new OAuth2(
                 'https://suzuri.jp/oauth/authorize',
                 'https://suzuri.jp/oauth/token',
                 LogSetupLevel.ALL
-            );
-
-            this.grant = new AuthorizationCodeGrant(stageWebView,
-                clientId, clientSecret, redirectUri, scope
             );
 
             this.oauth.addEventListener(GetAccessTokenEvent.TYPE, this.onGetAccessToken);
@@ -55,7 +58,10 @@
             return this.accessToken != null && this.accessToken.length > 0;
         }
 
-        public function authenticate():void {
+        public function authenticate(stageWebView:StageWebView):void {
+            this.grant = new AuthorizationCodeGrant(stageWebView,
+                this.clientId, this.clientSecret, this.redirectUri, this.scope
+            );
             this.oauth.getAccessToken(this.grant);
         }
 
@@ -103,17 +109,14 @@
         public function onResponse(event:HTTPStatusEvent):void {
             var urlLoader:URLLoader;
 
-            this.lastStatusCode  =  event.status;
-            if (event.status < 200 || event.status > 200) {
-                urlLoader = event.target as URLLoader;
-                this.dispatchEvent(new SuzuriResponseEvent(event.status, urlLoader.data));
-            }
+            this.lastStatusCode = event.status;
         }
 
         public function onResponseBody(event:Event):void {
             var urlLoader:URLLoader = event.target as URLLoader;
             var body:String = urlLoader.data;
-            this.dispatchEvent(new SuzuriResponseEvent(this.lastStatusCode, body));
+            urlLoader = event.target as URLLoader;
+            this.dispatchEvent(new SuzuriResponseEvent(this.lastStatusCode || 500, body));
             this.lastStatusCode = null;
         }
 
