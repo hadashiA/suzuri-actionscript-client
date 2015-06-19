@@ -20,7 +20,6 @@ var webView:StageWebView = new StageWebView();
 webView.viewPort = new Rectangle(0, 0, this.stage.width, this.stage.height);
 
 var suzuriClient:SuzuriClient = new SuzuriClient(
-	webView, 
 	"YOUR CLIENT ID",
 	"YOUR CLIENT SECRET",
 	
@@ -45,7 +44,7 @@ if (accessToken) {
   // No authentication is required if there is an access token. (or API KEY)
   suzuriClient.accessToken = accessToken;
 } else {
-  suzuriClient.authorize();
+  suzuriClient.authenticate(webView);
 }
 ```
 
