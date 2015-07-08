@@ -60,7 +60,9 @@ package jp.suzuri {
 
         public function authenticate(stageWebView:StageWebView):void {
             this.grant = new AuthorizationCodeGrant(stageWebView,
-                this.clientId, this.clientSecret, this.redirectUri, this.scope
+                this.clientId, this.clientSecret, this.redirectUri, this.scope,
+                null,
+                { force_login: true }
             );
             this.oauth.getAccessToken(this.grant);
         }
